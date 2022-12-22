@@ -1,5 +1,11 @@
 # Terraform 0.13.x
 terraform {
+  cloud {
+    organization = "bcunning"
+    workspaces {
+      tags = ["googlebot"]
+    }
+  }
   required_providers {
     sigsci = {
       source = "signalsciences/sigsci"
@@ -10,17 +16,14 @@ terraform {
 variable "SIGSCI_CORP" {
     type        = string
     description = "This is the corp where configuration changes will be made as an env variable."
-    default     = "blank"
 }
 variable "SIGSCI_EMAIL" {
     type        = string
     description = "This is the email address associated with the token for the Sig Sci API as an env variable."
-    default     = "blank"
 }
 variable "SIGSCI_TOKEN" {
     type        = string
     description = "This is a secret token for the Sig Sci API as an env variable."
-    default     = "blank"
 }
 variable "GOOGLEBOT_IP_LIST" {
     type        = list
