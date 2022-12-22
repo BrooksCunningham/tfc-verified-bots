@@ -1,4 +1,4 @@
-name: get-and-update-gcp-ips-list
+name: get-and-update-verified-bots-list
 
 on:
   push:

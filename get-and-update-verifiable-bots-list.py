@@ -15,10 +15,8 @@ def main():
         for ip_prefix in ip_prefixes:
             if "ipv4Prefix" in ip_prefix:
                 googlebot_ip_address_ranges = googlebot_ip_address_ranges + '\"' + ip_prefix["ipv4Prefix"] + '\",'
-                # gcp_ip_address_ranges.append(ip_prefix["ipv4Prefix"])
             if "ipv6Prefix" in ip_prefix:
                 googlebot_ip_address_ranges = googlebot_ip_address_ranges + '\"' + ip_prefix["ipv6Prefix"] + '\",'
-                # gcp_ip_address_ranges.append(ip_prefix["ipv6Prefix"])
 
         googlebot_ip_address_ranges = googlebot_ip_address_ranges + "]"
 
@@ -26,14 +24,10 @@ def main():
 
 
     def compare_local_and_github_ip_list(local_list, github_list):
-        # print(gcp_list, github_list)
         if local_list == github_list:
             return True
         else:
             return False
-
-    # print(get_gcp_ips_list())
-    # exit()
 
     # First create a Github instance:
     # using a personal access token
@@ -47,10 +41,10 @@ def main():
     # Get file in github
     googlebot_ips_file_contents = repo.get_contents("main.auto.tfvars")
 
-    tf_var_formatted_gcp_ip_list = "GOOGLEBOT_IP_LIST = " + get_googlebot_ips_list() + "\n\n"
+    tf_var_formatted_googlebot_list = "GOOGLEBOT_IP_LIST = " + get_googlebot_ips_list() + "\n\n"
     github_googlebot_ips_file_contents_decoded = googlebot_ips_file_contents.decoded_content.decode()
 
-    googlebot_ip_list_compare = compare_local_and_github_ip_list(tf_var_formatted_gcp_ip_list, github_googlebot_ips_file_contents_decoded)
+    googlebot_ip_list_compare = compare_local_and_github_ip_list(tf_var_formatted_googlebot_list, github_googlebot_ips_file_contents_decoded)
 
     if googlebot_ip_list_compare:
         pass
@@ -58,7 +52,7 @@ def main():
     else:
         repo.update_file(googlebot_ips_file_contents.path
           , "automated GOOGLEBOT_IP_LIST update"
-          , tf_var_formatted_gcp_ip_list
+          , tf_var_formatted_googlebot_list
           , googlebot_ips_file_contents.sha
           , branch="main")
         return "List update: True"
