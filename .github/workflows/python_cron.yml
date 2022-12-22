@@ -25,6 +25,6 @@ jobs:
       - name: execute py script # run get-and-update-gcp-ips-list.py to get the latest data. 
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python get-and-update-gcp-ips-list.py
+        run: python get-and-update-verifiable-bots-list.py
           
         # Thanks for the write up! https://medium.com/@theboi/how-to-dynamically-update-your-github-profile-readme-using-github-actions-684be5db9932

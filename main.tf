@@ -30,9 +30,9 @@ provider "sigsci" {
   auth_token = "${var.SIGSCI_TOKEN}"
 }
 
-resource "sigsci_corp_list" "gcp_ips_list" {
+resource "sigsci_corp_list" "googlebot_ips_list" {
   name        = "GCP IPs list"
   type        = "ip"
   description = "Outbound GCP IPs"
-  entries = "${var.GCP_IP_LIST}"
+  entries = "${var.GOOGLEBOT_IP_LIST}"
 }
