@@ -3,7 +3,7 @@ from os import environ
 
 def main():
 
-    def get_gcp_ips_list():
+    def get_googlebot_ips_list():
         import requests
         resp = requests.get('https://developers.google.com/static/search/apis/ipranges/googlebot.json')
         json_response = resp.json()
@@ -47,7 +47,7 @@ def main():
     # Get file in github
     googlebot_ips_file_contents = repo.get_contents("main.auto.tfvars")
 
-    tf_var_formatted_gcp_ip_list = "GOOGLEBOT_IP_LIST = " + get_gcp_ips_list() + "\n\n"
+    tf_var_formatted_gcp_ip_list = "GOOGLEBOT_IP_LIST = " + get_googlebot_ips_list() + "\n\n"
     github_googlebot_ips_file_contents_decoded = googlebot_ips_file_contents.decoded_content.decode()
 
     googlebot_ip_list_compare = compare_local_and_github_ip_list(tf_var_formatted_gcp_ip_list, github_googlebot_ips_file_contents_decoded)
