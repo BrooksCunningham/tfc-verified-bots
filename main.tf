@@ -31,8 +31,8 @@ provider "sigsci" {
 }
 
 resource "sigsci_corp_list" "googlebot_ips_list" {
-  name        = "GCP IPs list"
+  name        = "Googlebot IPs list"
   type        = "ip"
-  description = "Outbound GCP IPs"
+  description = "Outbound Googlebot IPs"
   entries = "${var.GOOGLEBOT_IP_LIST}"
 }
