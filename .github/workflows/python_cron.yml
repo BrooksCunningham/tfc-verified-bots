@@ -25,7 +25,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           
-      - name: execute py script # run get-and-update-gcp-ips-list.py to get the latest data. 
+      - name: execute py script # run get-and-update-verifiable-bots-list.py to get the latest data. 
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python get-and-update-verifiable-bots-list.py
