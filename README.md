@@ -7,3 +7,6 @@ This repo will get the latest Googlbot ips and update a list with Fastly's Next-
 * Pull the GCP IP list as a cron
 * Update the repo with the latest Googlbot IPs and use Terraform cloud to update the IP list in Fastly's Next-Gen WAF.
 
+
+# What's next?
+* Bingbot IPs
