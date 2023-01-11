@@ -27,19 +27,6 @@ provider "fastly" {
   api_key = "${var.FASTLY_API_KEY}"
 }
 
-# variable "GOOGLEBOT_IP_FASTLY_EDGE_DICTIONARY_ITEMS" {
-#     type        = object({ name = string, items = map(string) })
-#     description = "Used for a Fastly Edge Dictionary of Googlebot IPs, https://developers.google.com/static/search/apis/ipranges/googlebot.json"
-#     default = {
-#       name  = "googlebot ips"
-#       items = {
-#         "1" = "using_defaults", 
-#         "2" = "using_defaults" 
-#         "3" = "using_defaults123" 
-#       }
-#     }
-# }
-
 variable "googlebot_ip_dictionary" {
   type    = object({ name = string, items = map(string) })
   default = {
@@ -108,5 +95,5 @@ resource "sigsci_corp_list" "googlebot_ips_list" {
   name        = "Googlebot IPs list"
   type        = "ip"
   description = "Outbound Googlebot IPs"
-  entries = "${var.GOOGLEBOT_IP_LIST}"
+  entries = "${var.googlebot_ips_list}"
 }

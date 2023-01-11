@@ -49,16 +49,16 @@ def main():
     googlebot_ips_file_contents = repo.get_contents("main.auto.tfvars")
 
     # Format the tf_variable
-    tf_var_formatted_googlebot_list = "GOOGLEBOT_IP_LIST = " + json.dumps(get_googlebot_ips_list(), indent=2) + "\n\n"
+    tf_var_formatted_googlebot_list = "googlebot_ips_list = " + json.dumps(get_googlebot_ips_list(), indent=2) + "\n\n"
 
     fastly_edge_dictionary_items =  { "name" : "googlebot ips",  "items": get_googlebot_ips_list() }
 
-    tf_var_fastly_edge_dictionary_items =  "googlebot_ip_dictionary = " + json.dumps(fastly_edge_dictionary_items, indent=2)
-
-    tf_var_formatted_googlebot_fastly_edge_dictionary = "googlebot_ip_dictionary = " + tf_var_fastly_edge_dictionary_items
+    tf_var_formatted_googlebot_fastly_edge_dictionary =  "googlebot_ip_dictionary = " + json.dumps(fastly_edge_dictionary_items, indent=2)
 
     # combine both list for NGWAF and Fastly Edge
     tf_var_formatted_googlebot_lists = tf_var_formatted_googlebot_list + tf_var_formatted_googlebot_fastly_edge_dictionary
+
+    exit()
 
     # Download the file from the remote main branch
     github_googlebot_ips_file_contents_decoded = googlebot_ips_file_contents.decoded_content.decode()
