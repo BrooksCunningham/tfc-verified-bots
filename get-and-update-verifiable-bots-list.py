@@ -58,8 +58,6 @@ def main():
     # combine both list for NGWAF and Fastly Edge
     tf_var_formatted_googlebot_lists = tf_var_formatted_googlebot_list + tf_var_formatted_googlebot_fastly_edge_dictionary
 
-    exit()
-
     # Download the file from the remote main branch
     github_googlebot_ips_file_contents_decoded = googlebot_ips_file_contents.decoded_content.decode()
 
