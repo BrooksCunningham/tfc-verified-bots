@@ -1,4 +1,5 @@
 from github import Github
+import json
 from os import environ
 
 def main():
@@ -10,15 +11,21 @@ def main():
 
         ip_prefixes = json_response["prefixes"]
 
-        googlebot_ip_address_ranges = "["
+        # googlebot_ip_address_ranges = "["
+
+        googlebot_ip_address_ranges = []
 
         for ip_prefix in ip_prefixes:
             if "ipv4Prefix" in ip_prefix:
-                googlebot_ip_address_ranges = googlebot_ip_address_ranges + '\"' + ip_prefix["ipv4Prefix"] + '\",'
+                googlebot_ip_address_ranges.append(ip_prefix["ipv4Prefix"])
+                # googlebot_ip_address_ranges = googlebot_ip_address_ranges + '\"' + ip_prefix["ipv4Prefix"] + '\",'
             if "ipv6Prefix" in ip_prefix:
-                googlebot_ip_address_ranges = googlebot_ip_address_ranges + '\"' + ip_prefix["ipv6Prefix"] + '\",'
+                googlebot_ip_address_ranges.append(ip_prefix["ipv6Prefix"])
+                # googlebot_ip_address_ranges = googlebot_ip_address_ranges + '\"' + ip_prefix["ipv6Prefix"] + '\",'
 
-        googlebot_ip_address_ranges = googlebot_ip_address_ranges + "]"
+        # googlebot_ip_address_ranges = googlebot_ip_address_ranges + "]"
+
+        # print(googlebot_ip_address_ranges)
 
         return googlebot_ip_address_ranges
 
@@ -41,20 +48,34 @@ def main():
     # Get file in github
     googlebot_ips_file_contents = repo.get_contents("main.auto.tfvars")
 
-    tf_var_formatted_googlebot_list = "GOOGLEBOT_IP_LIST = " + get_googlebot_ips_list() + "\n\n"
+    # Format the tf_variable
+    tf_var_formatted_googlebot_list = "GOOGLEBOT_IP_LIST = " + json.dumps(get_googlebot_ips_list(), indent=2) + "\n\n"
+
+    fastly_edge_dictionary_items =  { "name" : "googlebot ips",  "items": get_googlebot_ips_list() }
+
+    tf_var_fastly_edge_dictionary_items =  "googlebot_ip_dictionary = " + json.dumps(fastly_edge_dictionary_items, indent=2)
+
+    tf_var_formatted_googlebot_fastly_edge_dictionary = "googlebot_ip_dictionary = " + tf_var_fastly_edge_dictionary_items
+
+    # combine both list for NGWAF and Fastly Edge
+    tf_var_formatted_googlebot_lists = tf_var_formatted_googlebot_list + tf_var_formatted_googlebot_fastly_edge_dictionary
+
+    # Download the file from the remote main branch
     github_googlebot_ips_file_contents_decoded = googlebot_ips_file_contents.decoded_content.decode()
 
-    googlebot_ip_list_compare = compare_local_and_github_ip_list(tf_var_formatted_googlebot_list, github_googlebot_ips_file_contents_decoded)
+    # compare file contents locally and main branch
+    googlebot_ip_list_compare = compare_local_and_github_ip_list(tf_var_formatted_googlebot_lists, github_googlebot_ips_file_contents_decoded)
 
     if googlebot_ip_list_compare:
         pass
-        return "List update: False"
+        return "List updated: False"
     else:
+        # Update the repo
         repo.update_file(googlebot_ips_file_contents.path
           , "automated GOOGLEBOT_IP_LIST update"
           , tf_var_formatted_googlebot_list
           , googlebot_ips_file_contents.sha
           , branch="main")
-        return "List update: True"
+        return "List updated: True"
 
 print(main())
