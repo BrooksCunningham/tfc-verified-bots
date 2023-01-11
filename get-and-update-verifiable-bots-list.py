@@ -11,15 +11,13 @@ def main():
 
         ip_prefixes = json_response["prefixes"]
 
-        # googlebot_ip_address_ranges = "["
-
         googlebot_ip_address_ranges = []
 
         for ip_prefix in ip_prefixes:
             if "ipv4Prefix" in ip_prefix:
                 googlebot_ip_address_ranges.append(ip_prefix["ipv4Prefix"])
             if "ipv6Prefix" in ip_prefix:
-                googlebot_ip_address_ranges.append(ip_prefix["ipv6Prefix"])
+                googlebot_ip_address_ranges.append(ip_prefix["ipv6Prefix"]) 
 
         return googlebot_ip_address_ranges
 
@@ -47,24 +45,20 @@ def main():
     # Format the tf_variable
     tf_var_formatted_googlebot_list = "googlebot_ips_list = " + json.dumps(googlebot_ips, indent=2) + "\n\n"
 
-
+    # setting the dict
     formatted_googlebot_fastly_edge_dictionary = {}
 
     for idx, ip in list(enumerate(googlebot_ips, start=1)):
         formatted_googlebot_fastly_edge_dictionary[idx] = ip
 
+    # formating
     formatted_googlebot_fastly_edge_dictionary = { "name" : "googlebot ips", "items" : formatted_googlebot_fastly_edge_dictionary }
 
+    # formating
     tf_var_formatted_googlebot_fastly_edge_dictionary =  "googlebot_ip_dictionary = " + json.dumps(formatted_googlebot_fastly_edge_dictionary, indent=2)
-
-    # print(tf_var_formatted_googlebot_fastly_edge_dictionary)
-    # exit()
 
     # combine both list for NGWAF and Fastly Edge
     tf_var_formatted_googlebot_lists = tf_var_formatted_googlebot_list + tf_var_formatted_googlebot_fastly_edge_dictionary
-
-    print(tf_var_formatted_googlebot_lists)
-    exit()
 
     # Download the file from the remote main branch
     github_googlebot_ips_file_contents_decoded = googlebot_ips_file_contents.decoded_content.decode()
