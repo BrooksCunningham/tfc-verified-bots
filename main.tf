@@ -30,7 +30,7 @@ provider "fastly" {
 variable "googlebot_ip_dictionary" {
   type    = object({ name = string, items = map(string) })
   default = {
-    name  = "googlebot IP dictionary"
+    name  = "googlebot ip dictionary"
     items = {}
   }
 }
@@ -80,7 +80,7 @@ variable "SIGSCI_TOKEN" {
     type        = string
     description = "This is a secret token for the Sig Sci API as an env variable."
 }
-variable "GOOGLEBOT_IP_LIST" {
+variable "googlebot_ips_list" {
     type        = list
     description = "Used for a list of Googlebot IPs, https://developers.google.com/static/search/apis/ipranges/googlebot.json"
 }
@@ -95,5 +95,5 @@ resource "sigsci_corp_list" "googlebot_ips_list" {
   name        = "Googlebot IPs list"
   type        = "ip"
   description = "Outbound Googlebot IPs"
-  entries = "${var.googlebot_ips_list}"
+  entries = var.googlebot_ips_list
 }
